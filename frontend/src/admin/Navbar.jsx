@@ -32,7 +32,6 @@ export default function Navbar({ isOpen, setIsOpen }) {
       color: "#ff6b6b",
     },
     { icon: User, label: "Profile & Settings", path: "/profile", color: "#22bb33" },
-    { icon: HelpCircle, label: "Help & Support", path: "/help", color: "#9c27b0" },
     { icon: Users, label: "Users Management", path: "/users", color: "#ff9900" },
     { icon: FileText, label: "Case Management", path: "/cases", color: "#00bcd4" },
     { icon: CheckSquare, label: "Submitted Documents", path: "/documents", color: "#4caf50" },

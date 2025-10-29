@@ -1,4 +1,17 @@
-import { Lock, Globe, Shield, CreditCard, Bell, Moon, Zap, ChevronRight, Edit2 } from "lucide-react";
+import {
+  Lock,
+  Globe,
+  Shield,
+  CreditCard,
+  Bell,
+  Moon,
+  Zap,
+  ChevronRight,
+  Edit2,
+  Mail,
+  Phone,
+  MessagesSquare,
+} from "lucide-react";
 import { useState } from "react";
 
 export default function Profile() {
@@ -10,7 +23,12 @@ export default function Profile() {
     { id: 1, icon: Lock, label: "Change Password", color: "#0066cc" },
     { id: 2, icon: Globe, label: "Language (English)", color: "#2196f3" },
     { id: 3, icon: Shield, label: "Privacy Settings", color: "#1976d2" },
-    { id: 4, icon: CreditCard, label: "Manage Subscriptions", color: "#1565c0" },
+    {
+      id: 4,
+      icon: CreditCard,
+      label: "Manage Subscriptions",
+      color: "#1565c0",
+    },
   ];
 
   const preferences = [
@@ -37,6 +55,37 @@ export default function Profile() {
       toggle: dataSaver,
       setToggle: setDataSaver,
       color: "#673ab7",
+    },
+  ];
+
+  const helpOptions = [
+    { 
+      id: 1,
+      icon: Mail,
+      label: "Email Us",
+      desc: "support@odrcourtapp.com",
+      color: "#0066cc"
+    },
+    { 
+      id: 2,
+      icon: Phone,
+      label: "Call Us",
+      desc: "+91 9876543210",
+      color: "#0066cc"
+    },
+    { 
+      id: 3,
+      icon: Globe,
+      label: "Visit Website",
+      desc: "www.odrcourtapp.com/help",
+      color: "#0066cc"
+    },
+    { 
+      id: 4,
+      icon: MessagesSquare,
+      label: "FAQs",
+      desc: "Find answers to common questions",
+      color: "#0066cc"
     },
   ];
 
@@ -178,10 +227,7 @@ export default function Profile() {
   return (
     <div style={styles.container}>
       {/* Header */}
-      <div style={styles.header}>
-        ☰
-        Profile & Settings
-      </div>
+      <div style={styles.header}>☰ Profile & Settings</div>
 
       {/* Profile Card */}
       <div style={styles.profileCard}>
@@ -265,6 +311,37 @@ export default function Profile() {
               >
                 <div style={styles.toggleDot(pref.toggle)} />
               </button>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Help and Support */}
+      <div>
+        <div style={styles.sectionTitle}>Help and Support</div>
+        {helpOptions.map((option) => {
+          const IconComponent = option.icon;
+          return (
+            <div
+              key={option.id}
+              style={styles.settingItem(option.color)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.12)";
+                e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.08)";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              <div style={styles.settingIcon(option.color)}>
+                <IconComponent size={22} />
+              </div>
+              <div style={styles.settingContent}>
+                <div style={styles.settingLabel}>{option.label}</div>
+                <div style={styles.settingLabel}>{option.desc}</div>
+              </div>
+              <ChevronRight size={20} color="#999" />
             </div>
           );
         })}

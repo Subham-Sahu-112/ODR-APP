@@ -4,6 +4,12 @@ import Navbar from "./Navbar";
 import Dashboard from "./component/Dashboard";
 import Notifications from "./component/Notifications";
 import Profile from "./component/Profile";
+import Users from "./component/Users";
+import CaseManagement from "./component/CaseManagement";
+import SubmittedDocuments from "./component/SubmittedDocuments";
+import AdminControls from "./component/AdminControls";
+import Timeline from "./component/Timeline";
+import ScheduleHearings from "./component/ScheduleHearings";
 
 export default function Admin() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -33,6 +39,12 @@ export default function Admin() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="users" element={<Users />} />
+          <Route path="cases" element={<CaseManagement />} />
+          <Route path="documents" element={<SubmittedDocuments />} />
+          <Route path="controls" element={<AdminControls />} />
+          <Route path="timeline" element={<Timeline />} />
+          <Route path="hearings" element={<ScheduleHearings />} />
         </Routes>
       </main>
     </div>
