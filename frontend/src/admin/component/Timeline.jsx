@@ -183,7 +183,7 @@ export default function Timeline() {
 
   const styles = {
     container: {
-      padding: "2rem",
+      padding: "clamp(1rem, 5vw, 2rem)",
       backgroundColor: "#f5f5f5",
       minHeight: "100vh",
     },
@@ -193,12 +193,14 @@ export default function Timeline() {
       justifyContent: "space-between",
       backgroundColor: "#ff5722",
       color: "#fff",
-      padding: "1.5rem",
+      padding: "clamp(1rem, 3vw, 1.5rem)",
       borderRadius: "8px",
       marginBottom: "2rem",
+      flexWrap: "wrap",
+      gap: "1rem",
     },
     headerTitle: {
-      fontSize: "22px",
+      fontSize: "clamp(18px, 5vw, 24px)",
       fontWeight: "bold",
       display: "flex",
       alignItems: "center",
@@ -216,6 +218,8 @@ export default function Timeline() {
       cursor: "pointer",
       fontWeight: "600",
       transition: "all 0.3s ease",
+      fontSize: "14px",
+      whiteSpace: "nowrap",
     },
     controlsSection: {
       display: "flex",
@@ -239,6 +243,7 @@ export default function Timeline() {
       display: "flex",
       gap: "0.5rem",
       alignItems: "center",
+      flexWrap: "wrap",
     },
     filterButton: (isActive) => ({
       padding: "0.75rem 1rem",
@@ -250,10 +255,11 @@ export default function Timeline() {
       fontSize: "13px",
       fontWeight: "500",
       transition: "all 0.3s ease",
+      whiteSpace: "nowrap",
     }),
     statsGrid: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+      gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
       gap: "1rem",
       marginBottom: "2rem",
     },
@@ -266,7 +272,7 @@ export default function Timeline() {
       borderLeft: `4px solid ${color}`,
     }),
     statValue: {
-      fontSize: "24px",
+      fontSize: "clamp(20px, 4vw, 28px)",
       fontWeight: "bold",
       color: "#333",
       marginBottom: "0.25rem",
@@ -277,11 +283,17 @@ export default function Timeline() {
     },
     timelineContainer: {
       position: "relative",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+      gap: "2rem",
+      "@media (max-width: 768px)": {
+        gridTemplateColumns: "1fr",
+      },
     },
     timelineItem: {
       display: "flex",
-      gap: "1.5rem",
-      marginBottom: "2rem",
+      flexDirection: "column",
+      gap: "1rem",
       position: "relative",
     },
     timelineMarker: (color) => ({
@@ -298,14 +310,6 @@ export default function Timeline() {
       position: "relative",
       zIndex: 2,
     }),
-    timelineLine: {
-      position: "absolute",
-      left: "24px",
-      top: "50px",
-      width: "2px",
-      height: "100%",
-      backgroundColor: "#ddd",
-    },
     timelineContent: {
       flex: 1,
       backgroundColor: "#fff",
@@ -319,6 +323,8 @@ export default function Timeline() {
       alignItems: "flex-start",
       justifyContent: "space-between",
       marginBottom: "0.75rem",
+      flexWrap: "wrap",
+      gap: "0.5rem",
     },
     timelineTitle: {
       fontSize: "16px",
@@ -354,12 +360,14 @@ export default function Timeline() {
         borderRadius: "4px",
         fontSize: "11px",
         fontWeight: "600",
+        whiteSpace: "nowrap",
       };
     },
     actionButtons: {
       display: "flex",
       gap: "0.5rem",
       marginTop: "1rem",
+      flexWrap: "wrap",
     },
     actionButton: (bgColor) => ({
       padding: "0.5rem 0.75rem",
@@ -377,7 +385,7 @@ export default function Timeline() {
     emptyState: {
       backgroundColor: "#fff",
       borderRadius: "8px",
-      padding: "3rem",
+      padding: "3rem 1rem",
       textAlign: "center",
       color: "#666",
     },

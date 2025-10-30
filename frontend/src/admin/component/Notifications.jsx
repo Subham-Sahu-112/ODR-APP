@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function Notifications() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [ isMobile ] = useState(window.innerWidth < 480);
 
   const notifications = [
     {
@@ -94,25 +95,29 @@ export default function Notifications() {
 
   const styles = {
     container: {
-      padding: "2rem",
+      padding: "clamp(1rem, 5vw, 2rem)",
       backgroundColor: "#f5f5f5",
+      minHeight: "100vh",
+      maxWidth: "1200px",
+      margin: "0 auto",
     },
     header: {
       display: "flex",
+      justifyContent: isMobile ? "center" : "flex-start",
       alignItems: "center",
       gap: "0.75rem",
       backgroundColor: "#ff9900",
       color: "#fff",
-      padding: "1rem 1.5rem",
+      padding: "clamp(1rem, 3vw, 1.5rem)",
       borderRadius: "8px",
       marginBottom: "1.5rem",
-      fontSize: "18px",
+      fontSize: "clamp(16px, 4vw, 20px)",
       fontWeight: "600",
     },
     filterContainer: {
       display: "flex",
       gap: "1rem",
-      marginBottom: "1rem",
+      marginBottom: "1.5rem",
       flexWrap: "wrap",
     },
     filterButton: (isActive) => ({
@@ -125,12 +130,13 @@ export default function Notifications() {
       fontSize: "14px",
       fontWeight: isActive ? "600" : "500",
       transition: "all 0.3s ease",
+      whiteSpace: "nowrap",
     }),
     groupTitle: {
       fontSize: "16px",
       fontWeight: "600",
       color: "#333",
-      marginTop: "1rem",
+      marginTop: "1.5rem",
       marginBottom: "1rem",
     },
     notificationCard: {
@@ -143,6 +149,7 @@ export default function Notifications() {
       boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
       transition: "all 0.3s ease",
       cursor: "pointer",
+      alignItems: "flex-start",
     },
     notificationIcon: {
       width: "50px",
@@ -157,6 +164,7 @@ export default function Notifications() {
     },
     notificationContent: {
       flex: 1,
+      minWidth: 0,
     },
     notificationTitle: {
       fontSize: "15px",
@@ -168,11 +176,22 @@ export default function Notifications() {
       fontSize: "13px",
       color: "#666",
       lineHeight: "1.4",
+      wordWrap: "break-word",
     },
     notificationTime: {
       fontSize: "12px",
       color: "#999",
       fontWeight: "500",
+      marginTop: "0.5rem",
+      whiteSpace: "nowrap",
+    },
+    emptyState: {
+      textAlign: "center",
+      padding: "3rem 1rem",
+      color: "#999",
+      backgroundColor: "#fff",
+      borderRadius: "8px",
+      marginTop: "2rem",
     },
   };
 
@@ -181,7 +200,7 @@ export default function Notifications() {
       {/* Header */}
       <div style={styles.header}>
         <Bell size={22} />
-        Notifications (updates, alerts, case a...
+        Notifications
       </div>
 
       {/* Filter Buttons */}
@@ -253,14 +272,8 @@ export default function Notifications() {
       )}
 
       {filteredNotifications.length === 0 && (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "3rem 1rem",
-            color: "#999",
-          }}
-        >
-          <Bell size={48} style={{ marginBottom: "1rem", opacity: 0.3 }} />
+        <div style={styles.emptyState}>
+          <Bell size={48} style={{ marginBottom: "1rem", opacity: 0.3, display: "block", margin: "0 auto 1rem" }} />
           <p>No notifications found</p>
         </div>
       )}

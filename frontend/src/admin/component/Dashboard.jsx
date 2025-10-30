@@ -1,6 +1,14 @@
-import { Users, Briefcase, Calendar, AlertCircle, UserCircle } from "lucide-react";
+import {
+  Users,
+  Briefcase,
+  Calendar,
+  AlertCircle,
+  UserCircle,
+} from "lucide-react";
+import { useState } from "react";
 
 export default function Dashboard() {
+  const [isMobile] = useState(window.innerWidth <= 480);
   const upcomingHearings = [
     {
       id: "2024-45",
@@ -18,68 +26,77 @@ export default function Dashboard() {
 
   const styles = {
     container: {
-      padding: "2rem",
+      padding: isMobile ? "1rem" : "2rem",
       backgroundColor: "#f5f5f5",
     },
     welcomeCard: {
       backgroundColor: "#ff9900",
       color: "#fff",
-      padding: "2rem",
+      padding: isMobile ? "1.3rem 1.8rem" : "2rem",
       borderRadius: "12px",
-      marginBottom: "2rem",
+      marginBottom: isMobile ? "1rem" : "2rem",
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
-      gap: "1.5rem",
+      gap: "0.5rem",
     },
     welcomeIcon: {
       fontSize: "40px",
       backgroundColor: "rgba(255,255,255,0.2)",
-      width: "60px",
-      height: "60px",
+      width: isMobile ? "50px" : "60px",
+      height: isMobile ? "50px" : "60px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       borderRadius: "8px",
     },
     iconWrapper: {
-        display: "flex",
-        alignItems: "center",
+      display: "flex",
+      alignItems: "center",
     },
     welcomeContent: {
       flex: 1,
+      textAlign: "center",
     },
     welcomeTitle: {
-      fontSize: "24px",
+      fontSize: isMobile ? "22px" : "24px",
       fontWeight: "bold",
       marginBottom: "0.25rem",
     },
     welcomeSubtitle: {
-      fontSize: "14px",
+      fontSize: isMobile ? "17px" : "16px",
       opacity: 0.9,
     },
     statsGrid: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-      gap: "1.5rem",
-      marginBottom: "2rem",
+      gridTemplateColumns: isMobile ? "1fr 1fr 1fr" : "repeat(auto-fit, minmax(200px, 1fr))",
+      gap: isMobile ? "0.5rem" : "1.5rem",
+      marginBottom: isMobile ? "1rem" : "2rem",
     },
     statCard: {
       backgroundColor: "#fff",
-      padding: "2rem",
+      padding: isMobile ? "1rem" : "2rem",
       borderRadius: "12px",
       textAlign: "center",
       boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
       display: "flex",
       flexDirection: "column",
+      justifyContent: "center",
       alignItems: "center",
-      gap: "1rem",
+      gap: "0.2rem",
     },
     statIcon: {
-      fontSize: "36px",
       color: "#0066cc",
+      display: "flex",
+      alignItems: "center",
+    },
+    statDetail: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
     },
     statNumber: {
-      fontSize: "24px",
+      fontSize: isMobile ? "20px" : "24px",
       fontWeight: "bold",
       color: "#333",
     },
@@ -141,10 +158,12 @@ export default function Dashboard() {
       {/* Welcome Card */}
       <div style={styles.welcomeCard}>
         <div style={styles.welcomeIcon}>
-          <span style={styles.iconWrapper}><UserCircle size={35} /></span>
+          <span style={styles.iconWrapper}>
+            <UserCircle size={35} />
+          </span>
         </div>
         <div style={styles.welcomeContent}>
-          <div style={styles.welcomeTitle}>Welcome, User 👋</div>
+          <div style={styles.welcomeTitle}>Welcome, User</div>
           <div style={styles.welcomeSubtitle}>admin Dashboard</div>
         </div>
       </div>
@@ -153,26 +172,32 @@ export default function Dashboard() {
       <div style={styles.statsGrid}>
         <div style={styles.statCard}>
           <div style={styles.statIcon}>
-            <Users size={40} color="#0066cc" />
+            <Users size={isMobile ? 25 : 40} color="#0066cc" />
           </div>
-          <div style={styles.statNumber}>120</div>
-          <div style={styles.statLabel}>Users</div>
+          <div style={styles.statDetail}>
+            <div style={styles.statNumber}>120</div>
+            <div style={styles.statLabel}>Users</div>
+          </div>
         </div>
 
         <div style={styles.statCard}>
           <div style={styles.statIcon}>
-            <Briefcase size={40} color="#ff9900" />
+            <Briefcase size={isMobile ? 25 : 40} color="#ff9900" />
           </div>
-          <div style={styles.statNumber}>45</div>
-          <div style={styles.statLabel}>Cases</div>
+          <div style={styles.statDetail}>
+            <div style={styles.statNumber}>45</div>
+            <div style={styles.statLabel}>Cases</div>
+          </div>
         </div>
 
         <div style={styles.statCard}>
           <div style={styles.statIcon}>
-            <Calendar size={40} color="#22bb33" />
+            <Calendar size={isMobile ? 25 : 40} color="#22bb33" />
           </div>
-          <div style={styles.statNumber}>15</div>
-          <div style={styles.statLabel}>Hearings</div>
+          <div style={styles.statDetail}>
+            <div style={styles.statNumber}>15</div>
+            <div style={styles.statLabel}>Hearings</div>
+          </div>
         </div>
       </div>
 
@@ -198,7 +223,9 @@ export default function Dashboard() {
             <div style={styles.hearingInfo}>
               <div style={styles.hearingId}>Case {hearing.id}</div>
               <div style={styles.hearingMeta}>
-                <div>{hearing.date} · {hearing.time}</div>
+                <div>
+                  {hearing.date} · {hearing.time}
+                </div>
                 <div>{hearing.location}</div>
               </div>
             </div>

@@ -85,7 +85,7 @@ export default function CaseManagement() {
 
   const styles = {
     container: {
-      padding: "2rem",
+      padding: "clamp(1rem, 5vw, 2rem)",
       backgroundColor: "#f5f5f5",
       minHeight: "100vh",
     },
@@ -95,12 +95,14 @@ export default function CaseManagement() {
       justifyContent: "space-between",
       backgroundColor: "#00bcd4",
       color: "#fff",
-      padding: "1.5rem",
+      padding: "clamp(1rem, 3vw, 1.5rem)",
       borderRadius: "8px",
       marginBottom: "2rem",
+      flexWrap: "wrap",
+      gap: "1rem",
     },
     headerTitle: {
-      fontSize: "22px",
+      fontSize: "clamp(18px, 5vw, 24px)",
       fontWeight: "bold",
       display: "flex",
       alignItems: "center",
@@ -118,6 +120,8 @@ export default function CaseManagement() {
       cursor: "pointer",
       fontWeight: "600",
       transition: "all 0.3s ease",
+      fontSize: "14px",
+      whiteSpace: "nowrap",
     },
     controlsSection: {
       display: "flex",
@@ -141,6 +145,7 @@ export default function CaseManagement() {
       display: "flex",
       gap: "0.5rem",
       alignItems: "center",
+      flexWrap: "wrap",
     },
     filterButton: (isActive) => ({
       padding: "0.75rem 1rem",
@@ -152,10 +157,11 @@ export default function CaseManagement() {
       fontSize: "13px",
       fontWeight: "500",
       transition: "all 0.3s ease",
+      whiteSpace: "nowrap",
     }),
     statsGrid: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+      gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
       gap: "1rem",
       marginBottom: "2rem",
     },
@@ -168,7 +174,7 @@ export default function CaseManagement() {
       borderLeft: `4px solid ${color}`,
     }),
     statValue: {
-      fontSize: "24px",
+      fontSize: "clamp(20px, 4vw, 28px)",
       fontWeight: "bold",
       color: "#333",
       marginBottom: "0.25rem",
@@ -181,11 +187,12 @@ export default function CaseManagement() {
       backgroundColor: "#fff",
       borderRadius: "8px",
       boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-      overflow: "hidden",
+      overflow: "auto",
     },
     table: {
       width: "100%",
       borderCollapse: "collapse",
+      minWidth: "900px",
     },
     tableHeader: {
       backgroundColor: "#f5f5f5",
@@ -198,6 +205,7 @@ export default function CaseManagement() {
       fontWeight: "600",
       color: "#666",
       textTransform: "uppercase",
+      whiteSpace: "nowrap",
     },
     tableRow: {
       borderBottom: "1px solid #eee",
@@ -224,12 +232,14 @@ export default function CaseManagement() {
         fontSize: "12px",
         fontWeight: "600",
         textTransform: "capitalize",
+        whiteSpace: "nowrap",
       };
     },
     actionButtons: {
       display: "flex",
       gap: "0.5rem",
       alignItems: "center",
+      flexWrap: "wrap",
     },
     actionButton: (bgColor) => ({
       padding: "0.5rem 0.75rem",
@@ -247,7 +257,7 @@ export default function CaseManagement() {
     emptyState: {
       backgroundColor: "#fff",
       borderRadius: "8px",
-      padding: "3rem",
+      padding: "3rem 1rem",
       textAlign: "center",
       color: "#666",
     },

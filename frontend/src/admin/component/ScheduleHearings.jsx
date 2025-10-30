@@ -113,7 +113,7 @@ export default function ScheduleHearings() {
 
   const styles = {
     container: {
-      padding: "2rem",
+      padding: "clamp(1rem, 5vw, 2rem)",
       backgroundColor: "#f5f5f5",
       minHeight: "100vh",
     },
@@ -123,12 +123,14 @@ export default function ScheduleHearings() {
       justifyContent: "space-between",
       backgroundColor: "#2196f3",
       color: "#fff",
-      padding: "1.5rem",
+      padding: "clamp(1rem, 3vw, 1.5rem)",
       borderRadius: "8px",
       marginBottom: "2rem",
+      flexWrap: "wrap",
+      gap: "1rem",
     },
     headerTitle: {
-      fontSize: "22px",
+      fontSize: "clamp(18px, 5vw, 24px)",
       fontWeight: "bold",
       display: "flex",
       alignItems: "center",
@@ -146,6 +148,8 @@ export default function ScheduleHearings() {
       cursor: "pointer",
       fontWeight: "600",
       transition: "all 0.3s ease",
+      fontSize: "14px",
+      whiteSpace: "nowrap",
     },
     controlsSection: {
       display: "flex",
@@ -169,6 +173,7 @@ export default function ScheduleHearings() {
       display: "flex",
       gap: "0.5rem",
       alignItems: "center",
+      flexWrap: "wrap",
     },
     filterButton: (isActive) => ({
       padding: "0.75rem 1rem",
@@ -180,10 +185,11 @@ export default function ScheduleHearings() {
       fontSize: "13px",
       fontWeight: "500",
       transition: "all 0.3s ease",
+      whiteSpace: "nowrap",
     }),
     statsGrid: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+      gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
       gap: "1rem",
       marginBottom: "2rem",
     },
@@ -196,7 +202,7 @@ export default function ScheduleHearings() {
       borderLeft: `4px solid ${color}`,
     }),
     statValue: {
-      fontSize: "24px",
+      fontSize: "clamp(20px, 4vw, 28px)",
       fontWeight: "bold",
       color: "#333",
       marginBottom: "0.25rem",
@@ -209,11 +215,12 @@ export default function ScheduleHearings() {
       backgroundColor: "#fff",
       borderRadius: "8px",
       boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-      overflow: "hidden",
+      overflow: "auto",
     },
     table: {
       width: "100%",
       borderCollapse: "collapse",
+      minWidth: "1100px",
     },
     tableHeader: {
       backgroundColor: "#f5f5f5",
@@ -226,6 +233,7 @@ export default function ScheduleHearings() {
       fontWeight: "600",
       color: "#666",
       textTransform: "uppercase",
+      whiteSpace: "nowrap",
     },
     tableRow: {
       borderBottom: "1px solid #eee",
@@ -269,6 +277,7 @@ export default function ScheduleHearings() {
         borderRadius: "4px",
         fontSize: "12px",
         fontWeight: "600",
+        whiteSpace: "nowrap",
       };
     },
     infoChip: {
@@ -279,11 +288,13 @@ export default function ScheduleHearings() {
       borderRadius: "4px",
       fontSize: "11px",
       marginRight: "0.3rem",
+      whiteSpace: "nowrap",
     },
     actionButtons: {
       display: "flex",
       gap: "0.5rem",
       alignItems: "center",
+      flexWrap: "wrap",
     },
     actionButton: (bgColor) => ({
       padding: "0.5rem 0.75rem",
@@ -301,7 +312,7 @@ export default function ScheduleHearings() {
     emptyState: {
       backgroundColor: "#fff",
       borderRadius: "8px",
-      padding: "3rem",
+      padding: "3rem 1rem",
       textAlign: "center",
       color: "#666",
     },

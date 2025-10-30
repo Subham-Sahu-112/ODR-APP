@@ -17,11 +17,20 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Navbar({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [ isClick, setIsClick ] = useState(false);
+
+  useEffect(() => {
+    if (isClick) {
+      setIsOpen(false);
+      setIsClick(false);
+    }
+  }, [isClick, setIsOpen]);
 
   const menuItems = [
     { icon: Home, label: "Dashboard / Home", path: "/dashboard", color: "#0066cc" },
@@ -211,7 +220,10 @@ export default function Navbar({ isOpen, setIsOpen }) {
               <div
                 key={index}
                 style={styles.menuItem(item.color, isActive)}
-                onClick={() => navigate(`/admin${item.path}`)}
+                onClick={() => {
+                  navigate(`/admin${item.path}`)
+                  setIsClick(true);
+                }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
                     e.currentTarget.style.backgroundColor = item.color + "11";

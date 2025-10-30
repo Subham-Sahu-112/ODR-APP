@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Dashboard from "./component/Dashboard";
@@ -10,9 +10,22 @@ import SubmittedDocuments from "./component/SubmittedDocuments";
 import AdminControls from "./component/AdminControls";
 import Timeline from "./component/Timeline";
 import ScheduleHearings from "./component/ScheduleHearings";
+import Reports from "./component/Reports";
+import PaymentManagement from "./component/PaymentManagement";
+import ServiceRequest from "./component/ServiceRequest";
+import SystemSettings from "./component/SystemSettings";
 
 export default function Admin() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState();
+  const [isMobile] = useState(window.innerWidth <= 480);
+
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false);
+    } else {
+      setSidebarOpen(true);
+    }
+  }, [isMobile]);
 
   const Styles = {
     container: {
@@ -23,7 +36,7 @@ export default function Admin() {
     },
     main: {
       flex: 1,
-      marginLeft: sidebarOpen ? "300px" : "80px",
+      marginLeft: isMobile ? "0" : sidebarOpen ? "300px" : "0",
       overflow: "auto",
       transition: "margin-left 0.3s ease",
       backgroundColor: "#f5f5f5",
@@ -45,6 +58,10 @@ export default function Admin() {
           <Route path="controls" element={<AdminControls />} />
           <Route path="timeline" element={<Timeline />} />
           <Route path="hearings" element={<ScheduleHearings />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="payment" element={<PaymentManagement />} />
+          <Route path="service" element={<ServiceRequest />} />
+          <Route path="system" element={<SystemSettings />} />
         </Routes>
       </main>
     </div>

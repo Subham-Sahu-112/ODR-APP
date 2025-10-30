@@ -11,6 +11,7 @@ import {
   Mail,
   Phone,
   MessagesSquare,
+  User,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -18,6 +19,7 @@ export default function Profile() {
   const [enableNotifications, setEnableNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [dataSaver, setDataSaver] = useState(false);
+  const [ isMobile ] = useState(window.innerWidth <= 480);
 
   const accountSettings = [
     { id: 1, icon: Lock, label: "Change Password", color: "#0066cc" },
@@ -91,34 +93,35 @@ export default function Profile() {
 
   const styles = {
     container: {
-      padding: "2rem",
+      padding: isMobile ? "1rem" : "2rem",
       backgroundColor: "#f5f5f5",
       minHeight: "100vh",
     },
     header: {
       display: "flex",
+      justifyContent: isMobile ? "center" : "flex-start",
       alignItems: "center",
-      gap: "0.75rem",
+      gap: isMobile ? "1rem" : "0.75rem",
       backgroundColor: "#ff9900",
       color: "#fff",
       padding: "1rem 1.5rem",
       borderRadius: "8px",
-      marginBottom: "2rem",
+      marginBottom: isMobile ? "1rem" : "2rem",
       fontSize: "18px",
       fontWeight: "600",
     },
     profileCard: {
       background: "linear-gradient(135deg, #0066cc 0%, #ff9900 100%)",
       color: "#fff",
-      padding: "2rem",
+      padding: isMobile ? "1rem" : "2rem",
       borderRadius: "12px",
       marginBottom: "2rem",
       textAlign: "center",
       boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
     },
     profileAvatar: {
-      width: "100px",
-      height: "100px",
+      width: isMobile ? "70px" : "100px",
+      height: isMobile ? "70px" : "100px",
       borderRadius: "50%",
       backgroundColor: "#fff",
       display: "flex",
@@ -231,7 +234,9 @@ export default function Profile() {
 
       {/* Profile Card */}
       <div style={styles.profileCard}>
-        <div style={styles.profileAvatar}>👤</div>
+        <div style={styles.profileAvatar}>
+          <User size={isMobile ? 40 : 60} strokeWidth={2.2} />
+        </div>
         <div style={styles.profileName}>User</div>
         <div style={styles.profileRole}>admin</div>
         <div style={styles.profileEmail}>user@email.com</div>
