@@ -2,20 +2,16 @@ import {
   Home,
   Bell,
   User,
-  HelpCircle,
-  Users,
-  FileText,
-  CheckSquare,
-  Settings,
-  TrendingUp,
-  Calendar,
-  BarChart3,
-  CreditCard,
-  Headphones,
-  Lock,
   LogOut,
   Menu,
   X,
+  MessageSquareText,
+  FilePlus,
+  FileUp,
+  Wallet,
+  Bot,
+  ChartPie,
+  Video,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -23,8 +19,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 export default function Navbar({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [ isClick, setIsClick ] = useState(false);
   const [ isMobile ] = useState(window.innerWidth <= 480);
+  const [ isClick, setIsClick ] = useState(false);
 
   useEffect(() => {
     if (isClick && isMobile) {
@@ -42,21 +38,13 @@ export default function Navbar({ isOpen, setIsOpen }) {
       color: "#ff6b6b",
     },
     { icon: User, label: "Profile & Settings", path: "/profile", color: "#22bb33" },
-    { icon: Users, label: "Users Management", path: "/users", color: "#ff9900" },
-    { icon: FileText, label: "Case Management", path: "/cases", color: "#00bcd4" },
-    { icon: CheckSquare, label: "Submitted Documents", path: "/documents", color: "#4caf50" },
-    { icon: Settings, label: "Admin Controls", path: "/controls", color: "#673ab7" },
-    { icon: TrendingUp, label: "Timeline / Events", path: "/timeline", color: "#ff5722" },
-    { icon: Calendar, label: "Schedule Hearings", path: "/hearings", color: "#2196f3" },
-    { icon: BarChart3, label: "Reports & Analytics", path: "/reports", color: "#ffc107" },
-    {
-      icon: CreditCard,
-      label: "Payment Management",
-      path: "/payment",
-      color: "#e91e63",
-    },
-    { icon: Headphones, label: "Service Requests", path: "/service", color: "#009688" },
-    { icon: Lock, label: "System Settings", path: "/system", color: "#795548" },
+    { icon: MessageSquareText, label: "Communication", path: "/communication", color: "#ff9900" },
+    { icon: FilePlus, label: "File New Case / Service Request", path: "/file-cases", color: "#00bcd4" },
+    { icon: FileUp, label: "Submit Documents", path: "/documents", color: "#4caf50" },
+    { icon: Wallet, label: "Payment Portal", path: "/payment", color: "#673ab7" },
+    { icon: Bot, label: "Saya Agent", path: "/agent", color: "#ff5722" },
+    { icon: ChartPie, label: "Case Status Tracking", path: "/case-status", color: "#2196f3" },
+    { icon: Video, label: "Online Hearing Access", path: "/online-hearing", color: "#ffc107" },
   ];
 
   const getIsActive = (itemPath) => {
@@ -222,7 +210,7 @@ export default function Navbar({ isOpen, setIsOpen }) {
                 key={index}
                 style={styles.menuItem(item.color, isActive)}
                 onClick={() => {
-                  navigate(`/admin${item.path}`)
+                  navigate(`/claimant${item.path}`)
                   setIsClick(true);
                 }}
                 onMouseEnter={(e) => {

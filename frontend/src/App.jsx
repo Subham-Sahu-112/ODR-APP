@@ -1,19 +1,38 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css'
-import Home from './Home';
-import Login from './Login';
-import Admin from './admin/admin';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Home from "./Home";
+import Login from "./Login";
+import Admin from "./admin/admin";
+import Claimant from "./claimant/Claimant";
+import { useState, useCallback, useEffect } from "react";
 
 function App() {
+  const [role, setRole] = useState(null);
+
+  const getRole = useCallback((newRole) => {
+    setRole(newRole);
+    // Persist role to localStorage for page refresh
+    localStorage.setItem("userRole", newRole);
+  }, []);
+
+  // Restore role from localStorage on mount
+  useEffect(() => {
+    const savedRole = localStorage.getItem("userRole");
+    if (savedRole) {
+      setRole(savedRole);
+    }
+  }, []);
+
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/admin/*' element={<Admin />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login getRole={getRole} role={role} />} />
+        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/claimant/*" element={<Claimant />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
 export default App;

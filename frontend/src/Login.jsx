@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, CircleUserRound, ChevronDown } from "lucide-react";
 
-export default function Login() {
+export default function Login({ getRole, role }) {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("Select Role");
@@ -10,6 +10,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const roles = ["admin", "claimant", "respondent", "neutral"];
+
+  useEffect(() => {
+    getRole(selectedRole);
+  }, [getRole, selectedRole]);
 
   const Styles = {
     container: {
@@ -173,7 +177,7 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate('/admin/dashboard');
+    navigate(role === "admin" ? "/admin" : "/claimant");
   }
 
   return (
