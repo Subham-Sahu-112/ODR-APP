@@ -177,8 +177,13 @@ export default function Login({ getRole, role }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate(role === "admin" ? "/admin" : "/claimant");
-  }
+    navigate(
+      (role === "admin" && "/admin") ||
+      (role === "claimant" && "/claimant") ||
+      (role === "respondent" && "/respondent") ||
+      (role === "neutral" && "/neutral")
+    );
+  };
 
   return (
     <div style={Styles.container}>
