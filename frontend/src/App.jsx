@@ -7,6 +7,7 @@ import Claimant from "./claimant/Claimant";
 import { useState, useCallback, useEffect } from "react";
 import Respondent from "./respondent/Respondent";
 import Neutral from "./neutral/Neutral";
+import Register from "./Register";
 
 function App() {
   const [role, setRole] = useState(null);
@@ -29,6 +30,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register getRole={getRole} role={role} />} />
         <Route path="/login" element={<Login getRole={getRole} role={role} />} />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/claimant/*" element={<Claimant />} />

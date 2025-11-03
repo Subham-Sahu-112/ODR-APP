@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Mail, Lock, CircleUserRound, ChevronDown, User } from "lucide-react";
 import { authApi } from "./api/authApi";
 
-export default function Login({ getRole }) {
+export default function Register({ getRole }) {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [name, setName] = useState("");
   const [selectedRole, setSelectedRole] = useState("Select Role");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -178,7 +179,7 @@ export default function Login({ getRole }) {
     },
   };
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     
     // Validation
@@ -196,29 +197,16 @@ export default function Login({ getRole }) {
     setError("");
 
     try {
-      const result = await authApi.login(email, password, selectedRole);
+      const result = await authApi.register(name, selectedRole, email, password);
       
       if (result.success) {
-        // Store user data
-        getRole(selectedRole);
-        localStorage.setItem("userRole", selectedRole);
-        localStorage.setItem("username", result.data.name);
-        localStorage.setItem("userEmail", result.data.email);
-        localStorage.setItem("authToken", result.token);
-        
-        // Navigate after successful login
-        navigate(
-          selectedRole === "admin" ? "/admin" :
-          selectedRole === "claimant" ? "/claimant" :
-          selectedRole === "respondent" ? "/respondent" :
-          selectedRole === "neutral" ? "/neutral" : "/"
-        );
+        navigate('/login');
       } else {
-        setError(result.message || "Login failed");
+        setError(result.message || "Registration failed");
       }
     } catch (err) {
-      setError(err.message || "Login failed. Please try again.");
-      console.error("Login error:", err);
+      setError(err.message || "Registration failed. Please try again.");
+      console.error("Registration error:", err);
     } finally {
       setLoading(false);
     }
@@ -236,9 +224,9 @@ export default function Login({ getRole }) {
           <p style={Styles.logoSubtitle}>Resolve disputes online</p>
         </div>
 
-        {/* Login Form */}
+        {/* Register Form */}
         <div style={Styles.formContainer}>
-          <h2 style={Styles.heading}>Sign In</h2>
+          <h2 style={Styles.heading}>Sign Up</h2>
           
           {/* Error Message */}
           {error && (
@@ -255,7 +243,7 @@ export default function Login({ getRole }) {
             </div>
           )}
           
-          <form style={Styles.form} onSubmit={handleLogin}>
+          <form style={Styles.form} onSubmit={handleRegister}>
             {/* Role Dropdown */}
             <div style={Styles.dropdownContainer}>
               <div
@@ -294,6 +282,21 @@ export default function Login({ getRole }) {
               </div>
             </div>
 
+            {/* Email Input */}
+            <div style={Styles.inputContainer}>
+              <span style={Styles.inputIcon}>
+                <User size={20} />
+              </span>
+              <input
+                style={Styles.input}
+                type="email"
+                placeholder="Username"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={isDisabled}
+              />
+            </div>
+
             <div style={Styles.inputContainer}>
               <span style={Styles.inputIcon}>
                 <Mail size={20} />
@@ -323,7 +326,7 @@ export default function Login({ getRole }) {
               />
             </div>
 
-            {/* Login Button */}
+            {/* Register Button */}
             <button
               type="submit"
               style={{
@@ -332,16 +335,16 @@ export default function Login({ getRole }) {
                 cursor: isDisabled || loading ? "not-allowed" : "pointer",
               }}
               disabled={isDisabled || loading}
-              onClick={handleLogin}
+              onClick={handleRegister}
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Registering..." : "Register"}
             </button>
           </form>
 
           {/* Create Account Link */}
           <div style={Styles.link}>
-            <span style={{ color: "#666" }}>Don't have an account? </span>
-            <a href="/register" style={Styles.linkAnchor}>Create an account</a>
+            <span style={{ color: "#666" }}>Already have an account? </span>
+            <a href="/login" style={Styles.linkAnchor}>Login</a>
           </div>
         </div>
       </div>

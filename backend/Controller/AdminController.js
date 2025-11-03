@@ -1,9 +1,9 @@
 const Admin = require("../models/admin");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const AdminRegister = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   try {
     const isUserExists = await Admin.findOne({ email });
     if (isUserExists) {
@@ -15,6 +15,7 @@ const AdminRegister = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new Admin({
+      name: name,
       email: email,
       password: hashedPassword,
     });
@@ -25,6 +26,7 @@ const AdminRegister = async (req, res) => {
       success: true,
       message: "Admin created",
       data: {
+        name: newUser.name,
         email: newUser.email,
       },
     });
@@ -60,7 +62,7 @@ const AdminLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: admin.id },
+      { id: admin.id, role: "admin" },
       process.env.SECRET_KEY || "my_secrect_code_is_9123891238",
       { expiresIn: "30d" }
     );
@@ -70,6 +72,7 @@ const AdminLogin = async (req, res) => {
       message: "Admin logged in",
       token,
       data: {
+        name: admin.name,
         email: admin.email,
       },
     });
@@ -79,4 +82,20 @@ const AdminLogin = async (req, res) => {
   }
 };
 
-module.exports = { AdminRegister, AdminLogin };
+const AdminData = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin.id).select("-password");
+    if (!admin) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
+    }
+
+    res.status(200).json({ success: true, data: admin });
+  } catch (err) {
+    res.status(400).json({ success: false, message: "Internal Server Error" });
+    console.error(err);
+  }
+};
+
+module.exports = { AdminRegister, AdminLogin, AdminData };

@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
 
 const neutralSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  user: {
+    type: String,
+    default: 'neutral'
+  },
   email: {
     type: String,
     required: true,

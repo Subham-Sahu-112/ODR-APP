@@ -5,10 +5,36 @@ import {
   AlertCircle,
   UserCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const [isMobile] = useState(window.innerWidth <= 480);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await fetch("http://localhost:3636/admin/data", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        if (data.success) {
+          setData(data.data);
+        } else {
+          console.error("Failed to fetch admin data:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+      }
+    };
+    fetchAdminData();
+  }, []);
+
   const upcomingHearings = [
     {
       id: "2024-45",
@@ -69,7 +95,9 @@ export default function Dashboard() {
     },
     statsGrid: {
       display: "grid",
-      gridTemplateColumns: isMobile ? "1fr 1fr 1fr" : "repeat(auto-fit, minmax(200px, 1fr))",
+      gridTemplateColumns: isMobile
+        ? "1fr 1fr 1fr"
+        : "repeat(auto-fit, minmax(200px, 1fr))",
       gap: isMobile ? "0.5rem" : "1.5rem",
       marginBottom: isMobile ? "1rem" : "2rem",
     },
@@ -163,8 +191,8 @@ export default function Dashboard() {
           </span>
         </div>
         <div style={styles.welcomeContent}>
-          <div style={styles.welcomeTitle}>Welcome, User</div>
-          <div style={styles.welcomeSubtitle}>admin Dashboard</div>
+          <div style={styles.welcomeTitle}>Welcome, {data && data.name}</div>
+          <div style={styles.welcomeSubtitle}>{data && data.user} Dashboard</div>
         </div>
       </div>
 
