@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function Navbar({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
@@ -248,6 +249,7 @@ export default function Navbar({ isOpen, setIsOpen }) {
   };
 
   const handleLogOut = () => {
+    toast.success("Logged out successfully!");
     localStorage.removeItem("authToken");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userRole");

@@ -43,9 +43,14 @@ export default function Home() {
 
   const handleClick = () => {
     setLoading(true);
+    const role = localStorage.getItem("userRole");
     setTimeout(() => {
       setLoading(false);
-      Navigate("/login");
+      if (role) {
+        Navigate(`/${role}`);
+      } else {
+        Navigate("/login");
+      }
     }, 2000);
   };
 
@@ -53,7 +58,7 @@ export default function Home() {
     <div style={Styles.home}>
       {!loading ? (
         <button style={Styles.button} onClick={handleClick}>
-          <p>Go to Login Page</p>
+          <p>Let's Go</p>
           <span style={Styles.buttonSpan}>
             <ChevronRight size={24} strokeWidth={2.5} />
           </span>

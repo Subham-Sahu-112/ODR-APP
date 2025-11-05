@@ -15,12 +15,14 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function Navbar({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [ isMobile ] = useState(window.innerWidth <= 480);
-  const [ isClick, setIsClick ] = useState(false);
+  const [isMobile] = useState(window.innerWidth <= 480);
+  const [isClick, setIsClick] = useState(false);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     if (isClick && isMobile) {
@@ -29,22 +31,86 @@ export default function Navbar({ isOpen, setIsOpen }) {
     }
   }, [isClick, isMobile, setIsOpen]);
 
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await fetch("http://localhost:3636/claimant/data", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        if (data.success) {
+          setData(data.data);
+        } else {
+          console.error("Failed to fetch admin data:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+      }
+    };
+    fetchAdminData();
+  }, []);
+
   const menuItems = [
-    { icon: Home, label: "Dashboard / Home", path: "/dashboard", color: "#0066cc" },
+    {
+      icon: Home,
+      label: "Dashboard / Home",
+      path: "/dashboard",
+      color: "#0066cc",
+    },
     {
       icon: Bell,
       label: "Notifications",
       path: "/notifications",
       color: "#ff6b6b",
     },
-    { icon: User, label: "Profile & Settings", path: "/profile", color: "#22bb33" },
-    { icon: MessageSquareText, label: "Communication", path: "/communication", color: "#ff9900" },
-    { icon: FilePlus, label: "File New Case / Service Request", path: "/file-cases", color: "#00bcd4" },
-    { icon: FileUp, label: "Submit Documents", path: "/documents", color: "#4caf50" },
-    { icon: Wallet, label: "Payment Portal", path: "/payment", color: "#673ab7" },
+    {
+      icon: User,
+      label: "Profile & Settings",
+      path: "/profile",
+      color: "#22bb33",
+    },
+    {
+      icon: MessageSquareText,
+      label: "Communication",
+      path: "/communication",
+      color: "#ff9900",
+    },
+    {
+      icon: FilePlus,
+      label: "File New Case / Service Request",
+      path: "/file-cases",
+      color: "#00bcd4",
+    },
+    {
+      icon: FileUp,
+      label: "Submit Documents",
+      path: "/documents",
+      color: "#4caf50",
+    },
+    {
+      icon: Wallet,
+      label: "Payment Portal",
+      path: "/payment",
+      color: "#673ab7",
+    },
     { icon: Bot, label: "Saya Agent", path: "/agent", color: "#ff5722" },
-    { icon: ChartPie, label: "Case Status Tracking", path: "/case-status", color: "#2196f3" },
-    { icon: Video, label: "Online Hearing Access", path: "/online-hearing", color: "#ffc107" },
+    {
+      icon: ChartPie,
+      label: "Case Status Tracking",
+      path: "/case-status",
+      color: "#2196f3",
+    },
+    {
+      icon: Video,
+      label: "Online Hearing Access",
+      path: "/online-hearing",
+      color: "#ffc107",
+    },
   ];
 
   const getIsActive = (itemPath) => {
@@ -160,6 +226,15 @@ export default function Navbar({ isOpen, setIsOpen }) {
     },
   };
 
+  const handleLogOut = () => {
+      toast.success("Logged out successfully!");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("username");
+      navigate("/login");
+    };
+
   return (
     <>
       {/* Hide Scrollbar CSS */}
@@ -180,8 +255,8 @@ export default function Navbar({ isOpen, setIsOpen }) {
         <div style={styles.header}>
           <div style={styles.avatar}>👤</div>
           <div style={{ flex: 1 }}>
-            <div style={styles.userName}>Admin</div>
-            <div style={styles.userRole}>admin</div>
+            <div style={styles.userName}>{data && data.name}</div>
+            <div style={styles.userRole}>{data && data.user}</div>
           </div>
           <button
             onClick={() => setIsOpen(false)}
@@ -210,7 +285,7 @@ export default function Navbar({ isOpen, setIsOpen }) {
                 key={index}
                 style={styles.menuItem(item.color, isActive)}
                 onClick={() => {
-                  navigate(`/claimant${item.path}`)
+                  navigate(`/claimant${item.path}`);
                   setIsClick(true);
                 }}
                 onMouseEnter={(e) => {
@@ -226,7 +301,10 @@ export default function Navbar({ isOpen, setIsOpen }) {
                   }
                 }}
               >
-                <IconComponent size={20} style={{ flexShrink: 0, color: item.color }} />
+                <IconComponent
+                  size={20}
+                  style={{ flexShrink: 0, color: item.color }}
+                />
                 <span>{item.label}</span>
               </div>
             );
@@ -237,7 +315,7 @@ export default function Navbar({ isOpen, setIsOpen }) {
         <div style={styles.logoutSection}>
           <button
             style={styles.logoutButton}
-            onClick={() => navigate("/login")}
+            onClick={handleLogOut}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "#ff3333";
             }}

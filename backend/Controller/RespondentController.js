@@ -60,16 +60,18 @@ const RespondentLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: respondent.id },
+      { id: respondent.id, role: respondent.user },
       process.env.SECRET_KEY || "my_secrect_code_is_9123891238",
       { expiresIn: "30d" }
     );
 
     res.status(201).json({
       success: true,
-      message: "Neutral logged in",
+      message: "Respondent logged in",
       token,
       data: {
+        name: respondent.name,
+        role: respondent.user,
         email: respondent.email,
       },
     });
@@ -79,4 +81,22 @@ const RespondentLogin = async (req, res) => {
   }
 };
 
-module.exports = { RespondentRegister, RespondentLogin };
+const RespondentData = async (req, res) => {
+  try {
+    const respondent = await Respondent.findById(req.respondent.id).select(
+      "-password"
+    );
+    if (!respondent) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Respondent not found" });
+    }
+
+    res.status(200).json({ success: true, data: respondent });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+module.exports = { RespondentRegister, RespondentLogin, RespondentData };

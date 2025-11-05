@@ -60,7 +60,7 @@ const NeutralLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: neutral.id },
+      { id: neutral.id, role: neutral.user },
       process.env.SECRET_KEY || "my_secrect_code_is_9123891238",
       { expiresIn: "30d" }
     );
@@ -70,6 +70,8 @@ const NeutralLogin = async (req, res) => {
       message: "Neutral logged in",
       token,
       data: {
+        name: neutral.name,
+        role: neutral.user,
         email: neutral.email,
       },
     });
@@ -79,4 +81,22 @@ const NeutralLogin = async (req, res) => {
   }
 };
 
-module.exports = { NeutralRegister, NeutralLogin };
+const NeutralData = async (req, res) => {
+  try {
+    const neutral = await Neutral.findById(req.neutral.id).select(
+      "-password"
+    );
+    if (!neutral) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Neutral not found" });
+    }
+
+    res.status(200).json({ success: true, data: neutral });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+module.exports = { NeutralRegister, NeutralLogin, NeutralData };

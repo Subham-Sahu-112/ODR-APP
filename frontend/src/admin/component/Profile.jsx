@@ -13,13 +13,38 @@ import {
   MessagesSquare,
   User,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Profile() {
   const [enableNotifications, setEnableNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [dataSaver, setDataSaver] = useState(false);
-  const [ isMobile ] = useState(window.innerWidth <= 480);
+  const [isMobile] = useState(window.innerWidth <= 480);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await fetch("http://localhost:3636/admin/data", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        if (data.success) {
+          setData(data.data);
+        } else {
+          console.error("Failed to fetch admin data:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching admin data:", error);
+      }
+    };
+    fetchAdminData();
+  }, []);
 
   const accountSettings = [
     { id: 1, icon: Lock, label: "Change Password", color: "#0066cc" },
@@ -61,33 +86,33 @@ export default function Profile() {
   ];
 
   const helpOptions = [
-    { 
+    {
       id: 1,
       icon: Mail,
       label: "Email Us",
       desc: "support@odrcourtapp.com",
-      color: "#0066cc"
+      color: "#0066cc",
     },
-    { 
+    {
       id: 2,
       icon: Phone,
       label: "Call Us",
       desc: "+91 9876543210",
-      color: "#0066cc"
+      color: "#0066cc",
     },
-    { 
+    {
       id: 3,
       icon: Globe,
       label: "Visit Website",
       desc: "www.odrcourtapp.com/help",
-      color: "#0066cc"
+      color: "#0066cc",
     },
-    { 
+    {
       id: 4,
       icon: MessagesSquare,
       label: "FAQs",
       desc: "Find answers to common questions",
-      color: "#0066cc"
+      color: "#0066cc",
     },
   ];
 
@@ -237,9 +262,9 @@ export default function Profile() {
         <div style={styles.profileAvatar}>
           <User size={isMobile ? 40 : 60} strokeWidth={2.2} />
         </div>
-        <div style={styles.profileName}>User</div>
-        <div style={styles.profileRole}>admin</div>
-        <div style={styles.profileEmail}>user@email.com</div>
+        <div style={styles.profileName}>{data && data.name}</div>
+        <div style={styles.profileRole}>{data && data.user}</div>
+        <div style={styles.profileEmail}>{data && data.email}</div>
         <button
           style={styles.editButton}
           onMouseEnter={(e) => {

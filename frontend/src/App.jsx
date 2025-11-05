@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Home from "./Home";
 import Login from "./Login";
@@ -14,8 +15,6 @@ function App() {
 
   const getRole = useCallback((newRole) => {
     setRole(newRole);
-    // Persist role to localStorage for page refresh
-    localStorage.setItem("userRole", newRole);
   }, []);
 
   // Restore role from localStorage on mount
@@ -30,13 +29,33 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register getRole={getRole} role={role} />} />
-        <Route path="/login" element={<Login getRole={getRole} role={role} />} />
+        <Route
+          path="/register"
+          element={<Register getRole={getRole} role={role} />}
+        />
+        <Route
+          path="/login"
+          element={<Login getRole={getRole} role={role} />}
+        />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/claimant/*" element={<Claimant />} />
         <Route path="/respondent/*" element={<Respondent />} />
         <Route path="/neutral/*" element={<Neutral />} />
       </Routes>
+
+      {/* Toast Container */}
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </Router>
   );
 }

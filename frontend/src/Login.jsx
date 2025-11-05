@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, CircleUserRound, ChevronDown, User } from "lucide-react";
+import { toast } from "react-toastify";
 import { authApi } from "./api/authApi";
 
 export default function Login({ getRole }) {
@@ -201,11 +202,14 @@ export default function Login({ getRole }) {
       if (result.success) {
         // Store user data
         getRole(selectedRole);
-        localStorage.setItem("userRole", selectedRole);
+        localStorage.setItem("userRole", result.data.role);
         localStorage.setItem("username", result.data.name);
         localStorage.setItem("userEmail", result.data.email);
         localStorage.setItem("authToken", result.token);
         
+        // Toast
+        toast.success("Login successful!");
+
         // Navigate after successful login
         navigate(
           selectedRole === "admin" ? "/admin" :

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, CircleUserRound, ChevronDown, User } from "lucide-react";
+import { toast } from "react-toastify";
 import { authApi } from "./api/authApi";
 
 export default function Register({ getRole }) {
@@ -197,9 +198,11 @@ export default function Register({ getRole }) {
     setError("");
 
     try {
+      console.log("Sending:", { name, selectedRole, email, password });
       const result = await authApi.register(name, selectedRole, email, password);
       
       if (result.success) {
+        toast.success("Registration successful! Please login.");
         navigate('/login');
       } else {
         setError(result.message || "Registration failed");

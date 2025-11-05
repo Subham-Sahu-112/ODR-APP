@@ -1,8 +1,11 @@
 const Express = require('express');
 const router = Express.Router();
-const { NeutralRegister, NeutralLogin } = require('../Controller/NeutralController');
+const { NeutralRegister, NeutralLogin, NeutralData } = require('../Controller/NeutralController');
+const NeutralAuth = require('../middlewares/NeutralAuth');
 
 router.post('/register', NeutralRegister);
 router.post('/login', NeutralLogin);
+
+router.get('/data', NeutralAuth, NeutralData)
 
 module.exports = router;

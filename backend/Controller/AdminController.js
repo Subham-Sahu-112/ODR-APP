@@ -72,6 +72,7 @@ const AdminLogin = async (req, res) => {
       message: "Admin logged in",
       token,
       data: {
+        role: admin.user,
         name: admin.name,
         email: admin.email,
       },
